@@ -27,8 +27,14 @@
 #include <linux/proc_fs.h>
 
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,6,23)
+/* TODO: WyBox kernel is 2.6.23.17.26_p3 but include files are in old place ?!? */
+#ifdef WYBOX_KERNEL
+#include <linux/usb.h>
+#include <linux/usb_gadget.h>
+#else
 #include <linux/usb/ch9.h>
 #include <linux/usb/gadget.h>
+#endif
 #else
 #include <linux/usb.h>
 #include <linux/usb_gadget.h>

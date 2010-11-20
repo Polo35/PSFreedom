@@ -18,6 +18,8 @@
  *
  * JZ4740 controller driver, Copyright (C) 2006-2008 Ingenic Semiconductor Inc.
  *
+ * NET2272 controller driver, Copyright (C) 2005-2006 PLX Technology, Inc.
+ *
  */
 
 #ifdef ENABLE_MUSB_CONTROLLER
@@ -437,3 +439,62 @@ static void psfreedom_set_address (struct usb_gadget *g, u8 address)
 }
 
 #endif /* ENABLE_S3C_CONTROLLER */
+
+#ifdef ENABLE_NET2272_CONTROLLER
+
+#include "../drivers/usb/gadget/net2272.h"
+
+/* HIGH_SPEED when registering driver, then FULL_SPEED when enabling bulk endpoints */
+static int psfreedom_is_high_speed (void)
+{
+  return 1;
+}
+
+static int psfreedom_is_low_speed (void)
+{
+  return 0;
+}
+
+static char *psfreedom_get_endpoint_name (struct usb_endpoint_descriptor *desc)
+{
+  u8 address = desc->bEndpointAddress;
+  u8 epnum = address & 0x0f;
+
+  /* There is no restriction in physical net2272 endpoints. So we can use them in order */
+  if (epnum == 1 && (address & USB_DIR_IN) == USB_DIR_IN)
+    return "ep-a";
+  else if (epnum == 2 && (address & USB_DIR_IN) == USB_DIR_IN)
+    return "ep-b";
+  else if (epnum == 2 && (address & USB_DIR_IN) == 0)
+    return "ep-c";
+  else
+    return NULL;
+}
+
+static u8 psfreedom_get_address (struct usb_gadget *g)
+{
+  struct net2272 *dev = container_of(g, struct net2272, gadget);
+  u8 address = 0;
+
+  if (dev)
+    address = net2272_read(dev, OURADDR);
+
+//  printk(KERN_INFO "psfreedom: Get address %d.\n", address);
+
+  return address;
+}
+
+static void psfreedom_set_address (struct usb_gadget *g, u8 address)
+{
+  struct net2272 *dev = container_of(g, struct net2272, gadget);
+
+//  printk(KERN_INFO "psfreedom: Setting address to %d.\n", address);
+
+  if (dev)
+    net2272_write(dev, OURADDR, address | (1 << FORCE_IMMEDIATE));
+
+//  printk(KERN_INFO "psfreedom: New address is %d.\n", psfreedom_get_address(g));
+}
+
+#endif /* ENABLE_NET2272_CONTROLLER */
+

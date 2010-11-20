@@ -199,6 +199,12 @@ static int set_jig_config(struct psfreedom_device *dev)
 {
   int err = 0;
 
+#ifdef ENABLE_NET2272_CONTROLLER
+  /* Bad hack to allow psfreedom to enable bulk ep with desc->wMaxPacketSize = 8 in net2272 */
+  /* (Net2272 won't start in USB_SPEED_FULL mode) */
+  dev->gadget->speed = USB_SPEED_FULL;
+#endif /* ENABLE_NET2272_CONTROLLER */
+
   err = usb_ep_enable(dev->out_ep, &jig_out_endpoint_desc);
   if (err) {
     ERROR(dev, "can't start %s: %d\n", dev->out_ep->name, err);
