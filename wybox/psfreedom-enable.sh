@@ -1,6 +1,6 @@
 #!/bin/sh
 echo "PSFREEDOM V1.1 19 October 2010      Youness Alaoui (KaKaRoTo)"
-echo "Supported firmwares: 2.76, 3.01, 3.10, 3.15, 3.21, 3.40, 3.41"
+echo "Supported firmwares: 2.76, 3.01, 3.10, 3.15, 3.21, 3.30, 3.40, 3.41"
 
 if [ $# != 1 ]; then
   echo "Usage: sh ./psfreedom-enable.sh 3.41"
