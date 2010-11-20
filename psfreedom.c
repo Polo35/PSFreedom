@@ -40,8 +40,8 @@
 #include <linux/usb_gadget.h>
 #endif
 
-#define DEBUG
-#define VERBOSE_DEBUG
+//#define DEBUG
+//#define VERBOSE_DEBUG
 
 /*-------------------------------------------------------------------------*/
 
