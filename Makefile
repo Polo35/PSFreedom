@@ -56,7 +56,7 @@ palmpixi: PALMPIXI
 archos5: ARCHOS_GEN6
 dingoo: DINGOO
 iPhone: IPHONE
-WyBox: WYBOX
+wybox: WYBOX
 
 # Generic build rule for MSM72K controller
 build_msm72k: EXTRA_CFLAGS+=-DENABLE_MSM72K_CONTROLLER -DUI_ALLOC_ADDR=0x`cat $(KDIR)/System.map|grep the_usb_info|cut -b 1-8`

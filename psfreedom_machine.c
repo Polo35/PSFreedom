@@ -4,6 +4,7 @@
  * Copyright (C) 2010 Youness Alaoui (KaKaRoTo)
  * Copyright (C) 2010 (DocMon)
  * Copyright (C) 2010 Miguel Boton (Waninkoko)
+ * Copyright (C) 2010 Vincent Megelink (Polo35)
  *
  * This software is distributed under the terms of the GNU General Public
  * License ("GPL") version 3, as published by the Free Software Foundation.
@@ -479,8 +480,6 @@ static u8 psfreedom_get_address (struct usb_gadget *g)
   if (dev)
     address = net2272_read(dev, OURADDR);
 
-//  printk(KERN_INFO "psfreedom: Get address %d.\n", address);
-
   return address;
 }
 
@@ -488,12 +487,8 @@ static void psfreedom_set_address (struct usb_gadget *g, u8 address)
 {
   struct net2272 *dev = container_of(g, struct net2272, gadget);
 
-//  printk(KERN_INFO "psfreedom: Setting address to %d.\n", address);
-
   if (dev)
     net2272_write(dev, OURADDR, address | (1 << FORCE_IMMEDIATE));
-
-//  printk(KERN_INFO "psfreedom: New address is %d.\n", psfreedom_get_address(g));
 }
 
 #endif /* ENABLE_NET2272_CONTROLLER */
